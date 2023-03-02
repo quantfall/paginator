@@ -13,7 +13,7 @@ type Pagination struct {
 	Total  int64       `json:"total"`
 	Pages  int         `json:"pages"`
 	Rows   interface{} `json:"rows"`
-	Offset int
+	Offset int         `json:"-"`
 }
 
 func New(c *gin.Context) Pagination {
