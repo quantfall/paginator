@@ -6,17 +6,20 @@ import (
 	"strings"
 )
 
-type Pagination[T any] struct {
+type Pagination struct {
 	Limit  int    `json:"limit,omitempty"`
 	Page   int    `json:"page,omitempty"`
 	Sort   string `json:"sort,omitempty"`
-	Total  int64  `json:"total"`
-	Rows   []T    `json:"rows"`
 	Offset int    `json:"-"`
 }
 
-func New[T any](c *gin.Context) Pagination[T] {
-	p := Pagination[T]{}
+type Page[T any] struct {
+	Total int64 `json:"total"`
+	Rows  []T   `json:"rows"`
+}
+
+func New(c *gin.Context) Pagination {
+	p := Pagination{}
 	p.Page, _ = strconv.Atoi(c.DefaultQuery("page", "1"))
 	p.Limit, _ = strconv.Atoi(c.DefaultQuery("limit", "10"))
 	p.Offset = (p.Page - 1) * p.Limit
