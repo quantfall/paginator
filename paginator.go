@@ -2,7 +2,6 @@ package paginator
 
 import (
 	"github.com/gin-gonic/gin"
-	"math"
 	"strconv"
 	"strings"
 )
@@ -12,18 +11,15 @@ type Pagination struct {
 	Page   int         `json:"page,omitempty"`
 	Sort   string      `json:"sort,omitempty"`
 	Total  int64       `json:"total"`
-	Pages  int         `json:"pages"`
 	Rows   interface{} `json:"rows"`
 	Offset int         `json:"-"`
 }
 
 func New(c *gin.Context) Pagination {
 	p := Pagination{}
-
 	p.Page, _ = strconv.Atoi(c.DefaultQuery("page", "1"))
 	p.Limit, _ = strconv.Atoi(c.DefaultQuery("limit", "10"))
 	p.Offset = (p.Page - 1) * p.Limit
-	p.Pages = int(math.Ceil(float64(p.Total / int64(p.Limit))))
 	sort := c.QueryArray("sort")
 
 	if len(sort) > 0 {
