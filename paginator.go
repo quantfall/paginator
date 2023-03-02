@@ -2,6 +2,7 @@ package paginator
 
 import (
 	"github.com/gin-gonic/gin"
+	"math"
 	"strconv"
 	"strings"
 )
@@ -22,6 +23,7 @@ func New(c *gin.Context) Pagination {
 	p.Page, _ = strconv.Atoi(c.DefaultQuery("page", "1"))
 	p.Limit, _ = strconv.Atoi(c.DefaultQuery("limit", "10"))
 	p.Offset = (p.Page - 1) * p.Limit
+	p.Pages = int(math.Ceil(float64(p.Total / int64(p.Limit))))
 	sort := c.QueryArray("sort")
 
 	if len(sort) > 0 {
