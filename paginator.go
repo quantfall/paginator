@@ -36,6 +36,6 @@ func New(c *gin.Context) Pagination {
 	return p
 }
 
-func (p *Pagination) pagingScope(db *gorm.DB) *gorm.DB {
+func (p *Pagination) PagingScope(db *gorm.DB) *gorm.DB {
 	return db.Limit(p.Limit).Offset(p.Offset).Order(p.Sort)
 }
