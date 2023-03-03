@@ -2,6 +2,7 @@ package paginator
 
 import (
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 	"strconv"
 	"strings"
 )
@@ -33,4 +34,8 @@ func New(c *gin.Context) Pagination {
 		p.Sort = strings.Join(srt, ",")
 	}
 	return p
+}
+
+func (p *Pagination) pagingScope(db *gorm.DB) *gorm.DB {
+	return db.Limit(p.Limit).Offset(p.Offset).Order(p.Sort)
 }
