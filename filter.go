@@ -20,7 +20,7 @@ const (
 type Filter struct {
 	Field string
 	Op    Operator
-	Value any
+	Value interface{}
 }
 
 func NewF(c *gin.Context) []Filter {
@@ -65,9 +65,9 @@ func FilterScope(filters []Filter) func(db *gorm.DB) *gorm.DB {
 		for _, filter := range filters {
 			switch filter.Op {
 			case Is:
-				db.Where("? = ?", filter.Field, filter.Value)
+				db.Where(filter.Field+" = ?", filter.Value)
 			case IsNot:
-				db.Where("? <> ?", filter.Field, filter.Value)
+				db.Where(filter.Field+" <> ?", filter.Value)
 			}
 		}
 		return db
