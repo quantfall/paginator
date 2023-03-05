@@ -68,6 +68,14 @@ func FilterScope(filters []Filter) func(db *gorm.DB) *gorm.DB {
 				db.Where(filter.Field+" = ?", filter.Value)
 			case IsNot:
 				db.Where(filter.Field+" <> ?", filter.Value)
+			case Contain:
+				db.Where(filter.Field+" like %?%", filter.Value)
+			case NotContain:
+				db.Where(filter.Field+" not like ?", filter.Value)
+			case In:
+				db.Where(filter.Field+" in (?)", filter.Value)
+			case NotIn:
+				db.Where(filter.Field+" not in (?)", filter.Value)
 			}
 		}
 		return db
